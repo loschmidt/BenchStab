@@ -1,0 +1,44 @@
+# pyproject.toml
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]  
+include = ["benchstab*"]
+exclude = ["doc_src", "tests"]
+namespaces = false
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "benchstab"
+version = "1.0"
+description = "Software tool for efficient querying of protein stability predictors."
+readme = "README.md"
+authors = [{ name = "Matej Berezny", email = "xberez03@vutbr.cz" }, {name = "Jan Velecký", email = "velda@mail.muni.cz"}]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["stability", "predictor", "bioinformatics"]
+dependencies = [
+    "aiohttp>=3.8",
+    "Bio",
+    "biopython>=1.8",
+    "lxml>=2",
+    "numpy",
+    "pandas",
+    "Requests",
+    "charset_normalizer",
+    "html5lib",
+    "beautifulsoup4"
+]
+requires-python = ">=3.9"
+
+[project.scripts]
+benchstab = "benchstab.benchstab:main"

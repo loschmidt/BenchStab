@@ -1,0 +1,7 @@
+aiohttp==3.8.5
+Bio==1.5.9
+biopython==1.81
+lxml==4.9.2
+numpy==1.23.4
+pandas==1.5.1
+Requests==2.31.0
