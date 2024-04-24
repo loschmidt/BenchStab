@@ -15,6 +15,6 @@ Indices and tables
 
     Introduction <introduction.rst>
     Details <details.md>
-    Benchstab <benchstab.rst>
+    BenchStab <benchstab.rst>
     Utils <utils.rst>
     Predictor implementations <predictors.rst>

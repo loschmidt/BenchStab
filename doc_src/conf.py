@@ -1,14 +1,14 @@
 import sys
 import os
 from importlib import import_module
-
+from datetime import datetime
 
 from benchstab.predictors.web.automute.base import _AutoMute
 
 sys.path.extend([os.path.abspath(".."), os.path.abspath("../benchstab")])
 
 project = 'BenchStab'
-copyright = '2024, Matej Berezny'
+copyright = str(datetime.now().year) + ', Loschmidt Laboratories'
 author = 'Matej Berezny'
 release = '0.1'
  
