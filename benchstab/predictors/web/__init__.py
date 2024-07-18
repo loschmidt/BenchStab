@@ -17,3 +17,4 @@ from .sride import SRidePdbFile, SRidePdbID
 from .popmusic import PoPMuSiCPdbID
 from .biosiglab import DDMutPdbFile, Dynamut2PdbFile, DDMutPdbID, Dynamut2PdbID
 from .ponsol import PONSol2Sequence
+from .prostata import ProstataSequence
