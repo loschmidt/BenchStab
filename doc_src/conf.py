@@ -1,9 +1,8 @@
 import sys
 import os
 from importlib import import_module
+import locale
 from datetime import datetime
-
-from benchstab.predictors.web.automute.base import _AutoMute
 
 sys.path.extend([os.path.abspath(".."), os.path.abspath("../benchstab")])
 
@@ -13,6 +12,7 @@ author = 'Matej Berezny'
 release = '0.1'
  
 pygments_style = 'sphinx'
+locale.setlocale(locale.LC_TIME, 'en_US.UTF-8')
 
 extensions = [
     'myst_parser',
@@ -29,8 +29,9 @@ predictor_dict = {
     if any(map(k.__contains__, ['Sequence', 'PdbID', 'PdbFile']))
 }
 
+
 predictor_availability = {
-    k: "\n" + f".. |{k}| replace:: {v.is_available(v.url)}"
+    k: "\n" + f".. |{k}| replace:: {v.is_available(v.url)} (as of {datetime.now().strftime('%b %d, %Y')})"
     for k, v in predictor_dict.items()
 }
 
