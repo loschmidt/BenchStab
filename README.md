@@ -35,7 +35,7 @@ benchstab -l
 
 <strong> 'benchstab' is not recognized as an internal or external command, operable program or batch file. </strong>
 
-Once the package is succesfully installed, the executable is located in Python's `Scripts/` directory. Please, add this directory to your `PATH` environment variable or use the Python installer with "Add Python to PATH" ([Windows](https://docs.python.org/3/using/windows.html#finding-the-python-executable)).
+Once the package is successfully installed, the executable is located in Python's `Scripts/` directory. Please, add this directory to your `PATH` environment variable or use the Python installer with "Add Python to PATH" ([Windows](https://docs.python.org/3/using/windows.html#finding-the-python-executable)).
 
 This problem is preceded by the following warning message from `pip`:\
 `WARNING: The script benchstab.exe is installed in 'Path/To/Your/Python/Installation/Scripts' which is not on PATH.`
@@ -50,7 +50,7 @@ echo 1CSE L45G I | benchstab
 
 - The application will acquire predictions from all implemented predictors and print the results to stdout in `csv` format.
 
-<em> "I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my 3 favourite predictors, and save the results to the file. " </em>
+<em> "I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query my three favorite predictors in the structure mode and save the results to a file. " </em>
 
 `dataset.csv`:
 
@@ -80,7 +80,7 @@ client = BenchStab(input_file="input.txt")
 results = client()
 ```
 
-<em>"I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my 3 favourite predictors, and save the results to the file. "</em>
+<em>"I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my three favorite predictors and save the results to a file. "</em>
 
 ```python
 from benchstab import BenchStab
