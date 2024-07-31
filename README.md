@@ -42,15 +42,14 @@ This problem is preceded by the following warning message from `pip`:\
 
 ## Quick usage
 
-<em> "I have a single mutation, and I want to query all predictors to see which one will give the most precise results." </em>
+- *"I investigate a specific mutation, and I want to see whether the popular predictors agree on its effect on the protein stability"*:
 
 ```bash
 echo 1CSE L45G I | benchstab
 ```
+The application will acquire predictions from all implemented predictors and print the results to stdout in `csv` format.
 
-- The application will acquire predictions from all implemented predictors and print the results to stdout in `csv` format.
-
-<em> "I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query my three favorite predictors in the structure mode and save the results to a file. " </em>
+- *"I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my three favorite predictors and save the results to a file"*:
 
 `dataset.csv`:
 
@@ -61,17 +60,15 @@ echo 1CSE L45G I | benchstab
 1MJC,F31S,A
 ```
 
-<em> The command: </em>
-
+The command:
 ```bash
 benchstab --include automute cupsat ddgun --pred-type structure --source dataset.csv --output path_to_results_folder/
 ```
-
-- The results will be saved to a folder named `benchstab_YYMMDD_HHMMSS` in a file `results.csv`. For more information about the output, please refer to the [BenchStab output](https://loschmidt.chemi.muni.cz/benchstab/details.html#output) section.
+The results will be saved to a folder named `benchstab_YYMMDD_HHMMSS` in a file `results.csv`. For more information about the output, please refer to the [BenchStab output](https://loschmidt.chemi.muni.cz/benchstab/details.html#output) section.
 
 ## Quick Python usage
 
-<em>"I have a single mutation, and I want to query all predictors to see which one will give the most precise results."</em>
+- *"I investigate a specific mutation, and I want to see whether the popular predictors agree on its effect on the protein stability"*:
 
 ```python
 from benchstab import BenchStab
@@ -80,7 +77,7 @@ client = BenchStab(input_file="input.txt")
 results = client()
 ```
 
-<em>"I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my three favorite predictors and save the results to a file. "</em>
+- *"I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my three favorite predictors and save the results to a file"*:
 
 ```python
 from benchstab import BenchStab
