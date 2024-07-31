@@ -14,8 +14,8 @@ Description of the arguments:
 - `--include INCLUDE` allows the user to specify a subset of predictors, separated by a comma, from which the predictions will be acquired.
 - `--exclude EXCLUDE` allows the user to specify the subset of predictors, separated by a comma, excluded in the process of acquiring predictions. If both `--include` and `--exclude` are supplied, `--exclude` will be ignored.
 - `--pred-type` allows the user to define which protein formats will be used as inputs to the predictor. fo Possible `Type` options are (by default, all options are allowed):
-  - `sequence` - allow sequential predictors.
-  - `structure` - allow structural predictors, PDB accession code is always preferred before PDB files.
+  - `sequence` - allow sequence-based predictors.
+  - `structure` - allow structure-enabled predictors, a PDB accession code is always preferred before PDB files.
 - `--config CONFIG` predictor configuration file in `.json` format. For a more detailed description, please refer to section [Accepted file formats](#accepted-file-formats)
 - `--source SOURCE` mutation file, has to obey a specific format defined in the section [Accepted file formats](#accepted-file-formats). If not supplied, the application will attempt to read from stdin.
 - `--verbose` adds full logging of preprocessing errors and warnings, dataset summary and real-time prediction status updates. This will also include the `status_message` field in the results, providing more detailed information about the prediction status.
@@ -90,7 +90,7 @@ By default, BenchStab prints the prediction results to stdout in `csv` format. T
 
   - `identifier` – protein identifier
   - `mutation` – mutation in the format `original_amino_acid$position$mutated_amino_acid`.
-  - `fasta_mutation` - mutation in the format `original_amino_acid$position$mutated_amino_acid` adjusted to the acquired sequence. This is useful in case of sequential predictors, where the mutation position is adjusted to the acquired sequence. In case of structural predictors, this field is unused.
+  - `fasta_mutation` - mutation in the format `original_amino_acid$position$mutated_amino_acid` adjusted to the acquired sequence. This is useful in the case of sequence-based predictors, where the mutation position is adjusted to the acquired sequence. In the case of structure-based predictors, this field is unused.
   - `chain` – chain identifier (only in case of protein structures)
   - `ph` – pH value of the environment (optional)
   - `temperature` – temperature of the environment (optional)
@@ -144,13 +144,13 @@ Minimal example: acquire prediction from all predictors (since no `--exclude` or
 echo 1CSE L45G I | benchstab
 ```
 
-The option `--pred-type` can be used to further specify the type of the selected predictor used based on the input format. This is useful for predictors that accept both sequential and structural inputs. By default, the predictor client will only acquire predictions from structural predictors. If you wish to acquire sequential predictors, you have to specify the `--pred-type` option:
+The option `--pred-type` can be used to further specify the type of the selected predictor used based on the input format. This is useful for predictors that accept both sequence and structure inputs. By default, the predictor client will only acquire predictions from structure-enabled predictors. If you wish to query sequence-based predictors, you have to specify the `--pred-type` option:
 
 ```
 echo 1CSE L45G I | benchstab --pred-type sequence
 ```
 
-There is also a possibility of allowing multiple input types for predictors at once. For example, if you wish to acquire predictions from both sequential and structural predictors, you can use the following command:
+There is also a possibility of allowing multiple input types for predictors at once. For example, if you wish to acquire predictions from both sequence-based and structure-enabled, you can use the following command:
 
 ```bash
 echo 1CSE L45G I | benchstab --pred-type sequence structure
@@ -296,14 +296,14 @@ $identifier $mutation $chain ?ph ?temperature
 where `identifier`, `mutation`, and `chain` (only in case of protein structures – PDB ID or file) params are required, while `ph` + `temperature` are optional. Accepted protein inputs are:
 
 - PDB accession code (e.g., `1CSE`)
-  - If a user provides PDB accession code, the application will attempt to also acquire the protein sequence firstly from UniProt, and if that fails, from RCSB. This allows the user the option to acquire sequential predictions by providing only the PDB accession code.
+  - If a user provides PDB accession code, the application will attempt to also acquire the protein sequence firstly from UniProt, and if that fails, from RCSB. This allows the user to query sequence-based predictors by providing only the PDB accession code.
     - If the sequence does not exist in UniProt, or the adjusted mutation does not match the acquired sequence, the application will raise a warning. Since the sequence length and positions sometimes differ between UniProt and RCSB, the application will adjust the mutation position. For example, if the mutation `L45G` is provided, but the sequence acquired from UniProt is shorter by 2 amino acids, the application will adjust the mutation to `L43G` before validating. Both mutations are kept in the dataset and used based on the predictor\`s input type.
     - If preprocessor fails to acquire the sequence from UniProt, it will attempt to acquire it from RCSB. If the provided mutation does not match the sequence acquired from RCSB, the application will raise a warning.
-    - If preprocessor fails to acquire the sequence from both UniProt and RCSB, dataset won\`t contain the sequence record. This will lead to the failure of all sequential predictors on a given record.
+    - If preprocessor fails to acquire the sequence from both UniProt and RCSB, dataset won\`t contain the sequence record. This will lead to the failure of all sequence-based predictors on a given record.
 - UniProt accession code (e.g., `P05067`)
 - path to a PDB structural file (`.pdb`), for example `./1CSE.pdb`.
-  - When needed, the sequence is inferred from the PDB file. If the mutated position does not match the sequence, the application will raise a warning and all sequential predictors will automatically fail on this record.
-  - BenchStab extracts the sequence from the `seqres` part of the PDB file via BioPython's `SeqIO` module. This approach assumes that the sequence indexing in the PDB file starts at `0`. If the sequence indexing starts at a different number, the user has to manually adjust the mutation position in the mutation file. Otherwise, the application will raise a warning and all sequential predictors will automatically fail on this record.
+  - When needed, the sequence is inferred from the PDB file. If the mutated position does not match the sequence, the application will raise a warning, and all sequence-based predictors will automatically fail on this record.
+  - BenchStab extracts the sequence from the `seqres` part of the PDB file via BioPython's `SeqIO` module. This approach assumes that the sequence indexing in the PDB file starts at `0`. If the sequence indexing starts at a different number, the user has to manually adjust the mutation position in the mutation file. Otherwise, the application will raise a warning and all sequence-based predictors will automatically fail on this record.
 - path to a FASTA sequence file (`.fasta`). for example `./1CSE.fasta`.
 - Raw fasta sequence without header (e.g., `TEFGSELKSFPEVVGKTVDQAREYFTLHYPQYNVYFLPEGSPVTLDLRYNRVRVFYNPGTNVVNHVPHVG`)
 
