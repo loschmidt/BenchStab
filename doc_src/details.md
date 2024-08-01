@@ -144,7 +144,7 @@ Minimal example: acquire prediction from all predictors (since no `--exclude` or
 echo 1CSE L45G I | benchstab
 ```
 
-The option `--pred-type` can be used to further specify the type of the selected predictor used based on the input format. This is useful for predictors that accept both sequence and structure inputs. By default, the predictor client will only acquire predictions from structure-enabled predictors. If you wish to query sequence-based predictors, you have to specify the `--pred-type` option:
+The option `--pred-type` can be used to further specify the type of the selected predictor used based on the input format. This is useful for predictors that accept both sequence and structure inputs. By default, the predictor client will acquire predictions from both structure-enabled and sequence-based predictors. If you wish to query only sequence-based predictors, you have to specify the `--pred-type` option:
 
 ```
 echo 1CSE L45G I | benchstab --pred-type sequence
