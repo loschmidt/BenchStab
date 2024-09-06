@@ -35,22 +35,21 @@ benchstab -l
 
 <strong> 'benchstab' is not recognized as an internal or external command, operable program or batch file. </strong>
 
-Once the package is succesfully installed, the executable is located in Python's `Scripts/` directory. Please, add this directory to your `PATH` environment variable or use the Python installer with "Add Python to PATH" ([Windows](https://docs.python.org/3/using/windows.html#finding-the-python-executable)).
+Once the package is successfully installed, the executable is located in Python's `Scripts/` directory. Please, add this directory to your `PATH` environment variable or use the Python installer with "Add Python to PATH" ([Windows](https://docs.python.org/3/using/windows.html#finding-the-python-executable)).
 
 This problem is preceded by the following warning message from `pip`:\
 `WARNING: The script benchstab.exe is installed in 'Path/To/Your/Python/Installation/Scripts' which is not on PATH.`
 
 ## Quick usage
 
-<em> "I have a single mutation, and I want to query all predictors to see which one will give the most precise results." </em>
+- *"I investigate a specific mutation, and I want to see whether the popular predictors agree on its effect on the protein stability"*:
 
 ```bash
 echo 1CSE L45G I | benchstab
 ```
+The application will acquire predictions from all implemented predictors and print the results to stdout in `csv` format.
 
-- The application will acquire predictions from all implemented predictors and print the results to stdout in `csv` format.
-
-<em> "I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my 3 favourite predictors, and save the results to the file. " </em>
+- *"I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my three favorite predictors and save the results to a file"*:
 
 `dataset.csv`:
 
@@ -61,17 +60,15 @@ echo 1CSE L45G I | benchstab
 1MJC,F31S,A
 ```
 
-<em> The command: </em>
-
+The command:
 ```bash
 benchstab --include automute cupsat ddgun --pred-type structure --source dataset.csv --output path_to_results_folder/
 ```
-
-- The results will be saved to a folder named `benchstab_YYMMDD_HHMMSS` in a file `results.csv`. For more information about the output, please refer to the [BenchStab output](https://loschmidt.chemi.muni.cz/benchstab/details.html#output) section.
+The results will be saved to a folder named `benchstab_YYMMDD_HHMMSS` in a file `results.csv`. For more information about the output, please refer to the [BenchStab output](https://loschmidt.chemi.muni.cz/benchstab/details.html#output) section.
 
 ## Quick Python usage
 
-<em>"I have a single mutation, and I want to query all predictors to see which one will give the most precise results."</em>
+- *"I investigate a specific mutation, and I want to see whether the popular predictors agree on its effect on the protein stability"*:
 
 ```python
 from benchstab import BenchStab
@@ -80,7 +77,7 @@ client = BenchStab(input_file="input.txt")
 results = client()
 ```
 
-<em>"I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my 3 favourite predictors, and save the results to the file. "</em>
+- *"I have a [dataset](https://loschmidt.chemi.muni.cz/benchstab/details.html#mutation-file) prepared, and I want to query structural variants of my three favorite predictors and save the results to a file"*:
 
 ```python
 from benchstab import BenchStab
