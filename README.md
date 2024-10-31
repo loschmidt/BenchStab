@@ -1,3 +1,10 @@
+<p align="center">
+	<img alt="BenchStab logo" src="https://loschmidt.chemi.muni.cz/benchstab/logo.png" style="width: 50%;">
+</p><p align="center">
+	<a href="https://doi.org/10.1093/bioinformatics/btae553" target="_blank" ><img alt="Journal article" src="https://img.shields.io/badge/DOI-10.1093%2Fbioinformatics%2Fbtae553-blue"></a>
+	<a href="https://x.com/loschmidtl" target="_blank"><img alt="X (formerly Twitter) Follow" src="https://img.shields.io/twitter/follow/loschmidtl" style="max-width: 100%;"></a>
+</p>
+
 **BenchStab** is a *command-line* (CLI) tool for querying predictors of protein stability on the web.
 
 This is a quick guide. For further details, please continue to the [detailed documentation](https://loschmidt.chemi.muni.cz/benchstab/details.html).
@@ -6,7 +13,7 @@ This is a quick guide. For further details, please continue to the [detailed doc
 
 If you use our tool, please cite our paper:
 
-> Velecký, J., Berezný M., Musil M., Damborsky J., Bednar, D., Mazurenko, S., 2024: BenchStab: a tool for automated querying the web-based stability predictors.
+> Velecký, J., Berezný M., Musil M., Damborsky J., Bednar, D., Mazurenko, S., 2024: BenchStab: a tool for automated querying the web-based stability predictors. *Bioinformatics* 40(9)
 
 Kindly cite also all the underlying [predictors](https://loschmidt.chemi.muni.cz/benchstab/predictors.html) you use via this tool.
 

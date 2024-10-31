@@ -67,7 +67,7 @@ def main():
             "=====================================================================================\n"
             "Thank you for using BenchStab! If you like our tool, please consider citing our work:\n"
             "> Velecký, J., Berezný M., Musil M., Damborsky J., Bednar, D., Mazurenko, S., 2024:\n"
-            "BenchStab: a tool for automated querying the web-based stability predictors.\n"
+            "BenchStab: a tool for automated querying the web-based stability predictors. Bioinformatics 40(9)\n"
             "=====================================================================================\n"
         )
     )

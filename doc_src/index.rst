@@ -1,20 +1,15 @@
-Welcome to BenchStab's documentation!
-=====================================
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
-
-
+   :hidden:
+   
     Introduction <introduction.rst>
     Details <details.md>
     BenchStab <benchstab.rst>
     Utils <utils.rst>
     Predictor implementations <predictors.rst>
+	Reference <contents.rst>
+
+
+.. include:: ../README.md
+   :parser: myst_parser.sphinx_
