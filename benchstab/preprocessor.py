@@ -446,7 +446,8 @@ class Preprocessor:
         """
         try:
             _residue = mutation[0]
-            _position = fasta.offsets[mutation[1:-1]]
+            _key = mutation[1:-1] if type(fasta.offsets) == dict else int(mutation[1:-1])
+            _position = fasta.offsets[_key]
             _position -= 1
             _mutated_aa = mutation[-1]
             _mut = _residue + str(_position + 1) + _mutated_aa
@@ -458,7 +459,7 @@ class Preprocessor:
                     'Only accepted format is: WT_RESIUDE + POSITION + MUT_RESIDUE.'
                 )
             ) from exc
-        except KeyError as exc:
+        except LookupError as exc:
             raise PreprocessorError(
                 (
                     f'Unable to extract fasta sequence for mutation "{mutation}".' 
