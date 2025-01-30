@@ -15,7 +15,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "benchstab"
-version = "1.0"
+version = "1.0.1"
 description = "Software tool for efficient querying of protein stability predictors."
 readme = "README.md"
 authors = [{ name = "Matej Berezny", email = "xberez03@vutbr.cz" }, {name = "Jan Velecký", email = "velda@mail.muni.cz"}]
