@@ -188,7 +188,7 @@ class CorrectInputTests(unittest.TestCase):
 
     def test_csv_comma_input(self):
         self.prep.input = f"{FOLDER_PATH}/inputs/input_comma.csv"
-        self.prep.header = True
+        self.prep.skip_header = True
         result = self.prep.parse()
         self.assertEqual(result["identifier"].item().id, "1CSE")
         self.assertEqual(result["mutation"].item(), "L45G")
@@ -196,7 +196,7 @@ class CorrectInputTests(unittest.TestCase):
 
     def test_csv_semicolon_input(self):
         self.prep.input = f"{FOLDER_PATH}/inputs/input_semicolon.csv"
-        self.prep.header = True
+        self.prep.skip_header = True
         result = self.prep.parse()
         self.assertEqual(result["identifier"].item().id, "1CSE")
         self.assertEqual(result["mutation"].item(), "L45G")
@@ -204,7 +204,7 @@ class CorrectInputTests(unittest.TestCase):
 
     def test_tsv_input(self):
         self.prep.input = f"{FOLDER_PATH}/inputs/input.tsv"
-        self.prep.header = True
+        self.prep.skip_header = True
         result = self.prep.parse()
         self.assertEqual(result["identifier"].item().id, "1CSE")
         self.assertEqual(result["mutation"].item(), "L45G")
@@ -212,7 +212,7 @@ class CorrectInputTests(unittest.TestCase):
 
     def test_txt_space_input(self):
         self.prep.input = f"{FOLDER_PATH}/inputs/input.txt"
-        self.prep.header = True
+        self.prep.skip_header = True
         result = self.prep.parse()
         self.assertEqual(result["identifier"].item().id, "1CSE")
         self.assertEqual(result["mutation"].item(), "L45G")
