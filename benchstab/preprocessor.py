@@ -222,7 +222,7 @@ class Preprocessor:
         
         If the fasta identifier is valid, return:
             * Fasta object.
-            * mutation in the format WT_RESIUDE + POSITION + MUT_RESIDUE.
+            * mutation in the format WT_RESIDUE + POSITION + MUT_RESIDUE.
             * pH (default: 7.0 if not supplied).
             * temperature (default: 25.0 if not supplied).
 
@@ -311,7 +311,7 @@ class Preprocessor:
         :type mutation: str
         :param fasta: Fasta record
         :type fasta: Fasta
-        :return: Mutation string in the format WT_RESIUDE + POSITION + MUT_RESIDUE
+        :return: Mutation string in the format WT_RESIDUE + POSITION + MUT_RESIDUE
         :rtype: str
         """
         return self.__exception_wrapper(
@@ -324,7 +324,7 @@ class Preprocessor:
         
         If the protein identifier is valid, return:
             * PDB object
-            * mutation in the format WT_RESIUDE + POSITION + MUT_RESIDUE
+            * mutation in the format WT_RESIDUE + POSITION + MUT_RESIDUE
             * chain
             * fasta object
             * pH (default: 7.0 if not supplied)
@@ -390,7 +390,7 @@ class Preprocessor:
 
         :param mutation: Mutation string to be parsed
         :type mutation: str
-        :return: Mutation string in the format WT_RESIUDE + POSITION + MUT_RESIDUE
+        :return: Mutation string in the format WT_RESIDUE + POSITION + MUT_RESIDUE
         :rtype: str
         """
         try:
@@ -401,7 +401,7 @@ class Preprocessor:
             raise PreprocessorError(
                 (
                     f'Mutation "{mutation}" has invalid format.'
-                    'Only accepted format is: WT_RESIUDE + POSITION + MUT_RESIDUE.'
+                    'Only accepted format is: WT_RESIDUE + POSITION + MUT_RESIDUE.'
                 )
             ) from exc
         # Invalid Wild Type residue
@@ -427,7 +427,7 @@ class Preprocessor:
         ) -> str:
         """
         Parse the mutation string and check if it is valid. If the mutation is valid,
-        return the mutation string in the format WT_RESIUDE + POSITION + MUT_RESIDUE.
+        return the mutation string in the format WT_RESIDUE + POSITION + MUT_RESIDUE.
 
         As this function also handles the parsing of the mutation string for the fasta
         record extracted from PDBs, it is possible that the mutation string is not valid.
@@ -441,12 +441,13 @@ class Preprocessor:
         :type fasta: Fasta
         :param permissive: If True, the function will raise a PreprocessorError with the permissive flag set to True
         :type permissive: bool
-        :return: Mutation string in the format WT_RESIUDE + POSITION + MUT_RESIDUE
+        :return: Mutation string in the format WT_RESIDUE + POSITION + MUT_RESIDUE
         :rtype: str
         """
         try:
             _residue = mutation[0]
-            _position = fasta.offsets[mutation[1:-1]]
+            _key = mutation[1:-1] if type(fasta.offsets) == dict else int(mutation[1:-1])
+            _position = fasta.offsets[_key]
             _position -= 1
             _mutated_aa = mutation[-1]
             _mut = _residue + str(_position + 1) + _mutated_aa
@@ -455,10 +456,10 @@ class Preprocessor:
             raise PreprocessorError(
                 (
                     f'Mutation "{mutation}" has invalid format.'
-                    'Only accepted format is: WT_RESIUDE + POSITION + MUT_RESIDUE.'
+                    'Only accepted format is: WT_RESIDUE + POSITION + MUT_RESIDUE.'
                 )
             ) from exc
-        except KeyError as exc:
+        except LookupError as exc:
             raise PreprocessorError(
                 (
                     f'Unable to extract fasta sequence for mutation "{mutation}".' 
@@ -503,7 +504,7 @@ class Preprocessor:
         
         If the protein identifier is valid, return:
             * PDB object
-            * mutation in the format WT_RESIUDE + POSITION + MUT_RESIDUE
+            * mutation in the format WT_RESIDUE + POSITION + MUT_RESIDUE
             * chain
             * fasta object
             * pH (default: 7.0 if not supplied)

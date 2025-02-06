@@ -1,4 +1,4 @@
-import unittest
+import unittest, os
 from benchstab.preprocessor import Preprocessor
 from benchstab.utils.exceptions import PreprocessorError
 
@@ -89,16 +89,15 @@ class WrongInputTests(unittest.TestCase):
     def test_wrong_mutation_general(self):
         # Missing position
         _input = "1CSE LG I"
-        with self.assertRaisesRegex(
-            PreprocessorError, r'.*Mutation "LG" has invalid format.*'
-        ):
+        with self.assertLogs(level='WARNING') as log:
             self.prep.parse_line(_input)
+            self.assertIn('Unable to extract fasta sequence for mutation "LG".The position "" is not a valid position.', log.output[0])
+
         _input = "1CSE LSG I"
         # Invalid position - not a number
-        with self.assertRaisesRegex(
-            PreprocessorError, r'.*Mutation "LSG" has invalid format*'
-        ):
+        with self.assertLogs(level='WARNING') as log:
             self.prep.parse_line(_input)
+            self.assertIn('Unable to extract fasta sequence for mutation "LSG".The position "S" is not a valid position.', log.output[0])
 
     def test_wrong_mutation_fasta(self):
         # Position larger than the sequence
@@ -107,7 +106,7 @@ class WrongInputTests(unittest.TestCase):
             res = self.prep.parse_line(_input)
             self.assertEqual(len(log.output), 1)
             self.assertEqual(len(log.records), 1)
-            self.assertIn('Invalid resiude position in mutation', log.output[0])
+            self.assertIn('The position "1000" is not a valid position.', log.output[0])
         self.assertIsNone(res.mutation)
         # Position is negative
         _input = "P01051 L-1000G I"
@@ -115,7 +114,7 @@ class WrongInputTests(unittest.TestCase):
             res = self.prep.parse_line(_input)
             self.assertEqual(len(log.output), 1)
             self.assertEqual(len(log.records), 1)
-            self.assertIn('Invalid resiude position in mutation', log.output[0])
+            self.assertIn('The position "-1000" is not a valid position.', log.output[0])
         self.assertIsNone(res.mutation)
         # WT aminoacid at position N in FASTA does not match the aminoacid stated in mutation
         _input = f"{FOLDER_PATH}/inputs/1CSE.fasta A45G I"
@@ -189,7 +188,7 @@ class CorrectInputTests(unittest.TestCase):
 
     def test_csv_comma_input(self):
         self.prep.input = f"{FOLDER_PATH}/inputs/input_comma.csv"
-        self.prep.header = True
+        self.prep.skip_header = True
         result = self.prep.parse()
         self.assertEqual(result["identifier"].item().id, "1CSE")
         self.assertEqual(result["mutation"].item(), "L45G")
@@ -197,7 +196,7 @@ class CorrectInputTests(unittest.TestCase):
 
     def test_csv_semicolon_input(self):
         self.prep.input = f"{FOLDER_PATH}/inputs/input_semicolon.csv"
-        self.prep.header = True
+        self.prep.skip_header = True
         result = self.prep.parse()
         self.assertEqual(result["identifier"].item().id, "1CSE")
         self.assertEqual(result["mutation"].item(), "L45G")
@@ -205,7 +204,7 @@ class CorrectInputTests(unittest.TestCase):
 
     def test_tsv_input(self):
         self.prep.input = f"{FOLDER_PATH}/inputs/input.tsv"
-        self.prep.header = True
+        self.prep.skip_header = True
         result = self.prep.parse()
         self.assertEqual(result["identifier"].item().id, "1CSE")
         self.assertEqual(result["mutation"].item(), "L45G")
@@ -213,7 +212,7 @@ class CorrectInputTests(unittest.TestCase):
 
     def test_txt_space_input(self):
         self.prep.input = f"{FOLDER_PATH}/inputs/input.txt"
-        self.prep.header = True
+        self.prep.skip_header = True
         result = self.prep.parse()
         self.assertEqual(result["identifier"].item().id, "1CSE")
         self.assertEqual(result["mutation"].item(), "L45G")
@@ -272,6 +271,15 @@ class CorrectInputTests(unittest.TestCase):
         result = self.prep.parse_line(_input)
         self.assertEqual(result.identifier.sequence, "MLPGLALLLLAAWTA")
         self.assertEqual(result.mutation, "M1A")
+
+    # this is also the example from the documentation
+    def test_mixed_input(self):
+        os.chdir(f"{FOLDER_PATH}/inputs/")
+        self.prep.input = f"input_mixed_no-header.txt"
+        result = self.prep.parse()
+        self.assertEqual(list(result.mutation), ["L45G", "A11B", "L45A", "F10I", "L45G"])
+        self.assertEqual(list(result.chain), ["I", "A", "I", "A", "A"])
+        os.chdir("../..")
 
 
 if __name__ == "__main__":
